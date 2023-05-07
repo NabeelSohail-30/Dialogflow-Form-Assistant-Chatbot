@@ -118,6 +118,92 @@ app.post('/webhook', async (req, res) => {
         res.status(500).send({ error: 'An internal server error occurred' });
     }
 });
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
+/*------------------Schema------------------*/
+const formData = new mongoose.Schema({
+    city: {
+        type: String,
+        required: true
+    },
+    course: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    fatherName: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    cnic: {
+        type: String,
+        required: true,
+    },
+    fatherCnic: {
+        type: String,
+        required: false,
+    },
+    dateOfBirth: {
+        type: Date,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    education: {
+        type: String,
+        required: true
+    },
+    haveLaptop: {
+        type: Boolean,
+        required: true
+    },
+    pictureUrl: {
+        type: String,
+        required: true
+    }
+});
+
+const Form = mongoose.model('Form', formData);
+
+/*---------------------------MongoDB---------------------------*/
+let dbURI = 'mongodb+srv://NabeelSohail:Nabeel30@cluster0.lidnkc6.mongodb.net/?retryWrites=true&w=majority';
+mongoose.connect(dbURI);
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose is connected');
+}
+);
+mongoose.connection.on('error', (err) => {
+    console.log('Mongoose connection error: ', err);
+}
+);
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose is disconnected');
+}
+);
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log('Mongoose is disconnected due to application termination');
+        process.exit(0);
+    });
+}
+);
