@@ -1,12 +1,16 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import morgan from 'morgan';
 
 const app = express();
 const port = process.env.PORT || 5005;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('dev'))
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
