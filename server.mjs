@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.post('webhook', async (req, res) => {
+app.post('/webhook', async (req, res) => {
     try {
         const intent = req.body.queryResult.intent.displayName;
         const queryText = req.body.queryResult.queryText;
