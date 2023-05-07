@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.post('/webhook', async (req, res) => {
     try {
         const intent = req.body.queryResult.intent.displayName;
-        const queryText = req.body.queryResult.queryText;
+        const city = req.body.queryResult.parameters.city;
 
         switch (intent) {
             case "Default Welcome Intent": {
@@ -46,6 +46,45 @@ app.post('/webhook', async (req, res) => {
                                                 },
                                                 {
                                                     "text": "All Pakistan",
+                                                },
+                                            ]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                });
+                break;
+            }
+            case "City": {
+                res.send({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    `We offer the following courses in ${city}`
+                                ]
+                            }
+                        },
+                        {
+                            "payload": {
+                                "richContent": [
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": [
+                                                {
+                                                    "text": "Web and Mobile Development",
+                                                },
+                                                {
+                                                    "text": "AI Generated Chatbots",
+                                                },
+                                                {
+                                                    "text": "Graphic Designing",
+                                                },
+                                                {
+                                                    "text": "Flutter",
                                                 },
                                             ]
                                         }
