@@ -196,6 +196,35 @@ app.post('/webhook', async (req, res) => {
                 }
                 break;
             }
+            case "FullName": {
+                const name = params.name;
+                if (name === undefined || name === null || name === "") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `Please enter your Full Name`
+                                    ]
+                                }
+                            },
+                        ]
+                    });
+                } else {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `Your name is ${name}, please enter your Father's Name`
+                                    ]
+                                }
+                            },
+                        ]
+                    });
+                }
+                break;
+            }
             case "Default Fallback Intent": {
                 res.send({
                     "fulfillmentMessages": [
