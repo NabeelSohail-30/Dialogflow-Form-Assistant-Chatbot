@@ -15,18 +15,10 @@ app.get('/', (req, res) => {
 app.post('/webhook', async (req, res) => {
     try {
         const intent = req.body.queryResult.intent.displayName;
+        const params = req.body.queryResult.parameters;
 
         switch (intent) {
             case "Default Welcome Intent": {
-                const cities = ["Karachi", "Faisalabad", "Islamabad", "All Pakistan"];
-
-                const cityButtons = cities.map(city => {
-                    return {
-                        "text": city,
-                        "postback": city
-                    };
-                });
-
                 res.send({
                     "fulfillmentMessages": [
                         {
@@ -43,7 +35,18 @@ app.post('/webhook', async (req, res) => {
                                         {
                                             "type": "chips",
                                             "options": [
-                                                cityButtons
+                                                {
+                                                    "text": "Karachi",
+                                                },
+                                                {
+                                                    "text": "Faisalabad",
+                                                },
+                                                {
+                                                    "text": "Islamabad",
+                                                },
+                                                {
+                                                    "text": "All Pakistan",
+                                                },
                                             ]
                                         }
                                     ]
@@ -55,7 +58,7 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "City": {
-                const city = req.body.queryResult.parameters.city;
+                console.log(params);
                 res.send({
                     "fulfillmentMessages": [
                         {
