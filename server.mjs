@@ -66,7 +66,7 @@ app.post('/webhook', async (req, res) => {
                                     "Sorry, I didn't get that. Can you rephrase?"
                                 ]
                             }
-                        }
+                        },
                     ]
                 });
                 break;
