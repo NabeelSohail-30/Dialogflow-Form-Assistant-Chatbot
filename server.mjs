@@ -34,21 +34,22 @@ app.post('/webhook', async (req, res) => {
                                     [
                                         {
                                             "type": "chips",
-                                            "options": "Karachi"
+                                            "options": [
+                                                {
+                                                    "text": "Karachi",
+                                                },
+                                                {
+                                                    "text": "Faisalabad",
+                                                },
+                                                {
+                                                    "text": "Islamabad",
+                                                },
+                                                {
+                                                    "text": "All Pakistan",
+                                                },
+                                            ]
                                         }
-                                    ],
-                                    [
-                                        {
-                                            "type": "chips",
-                                            "options": "Faisalabad"
-                                        }
-                                    ],
-                                    [
-                                        {
-                                            "type": "chips",
-                                            "options": "All Pakistan"
-                                        }
-                                    ],
+                                    ]
                                 ]
                             }
                         }
