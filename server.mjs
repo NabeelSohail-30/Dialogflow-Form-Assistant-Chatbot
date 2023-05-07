@@ -16,18 +16,61 @@ app.post('/webhook', async (req, res) => {
     try {
         const intent = req.body.queryResult.intent.displayName;
         const queryText = req.body.queryResult.queryText;
-        if (intent === 'Default Welcome Intent') {
-            res.send({
-                fulfillmentMessages: [{
-                    text: { text: [`Hi There, Welcome to SMIT Form Assist, Select a City`] }
-                }]
-            });
-        } else
-            res.send({
-                fulfillmentMessages: [{
-                    text: { text: [`Sorry, I didn't get that. Can you rephrase your question?`] }
-                }]
-            });
+
+        switch (intent) {
+            case "Default Welcome Intent": {
+                res.send({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    "Hi there, Welcome to SMIT Form Assistant!, We offer our courses in the following cities, select your city to know more about the courses offered in your city."
+                                ]
+                            }
+                        },
+                        {
+                            "payload": {
+                                "richContent": [
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": "Karachi"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": "Faisalabad"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": "All Pakistan"
+                                        }
+                                    ],
+                                ]
+                            }
+                        }
+                    ]
+                });
+                break;
+            }
+            case "Default Fallback Intent": {
+                res.send({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    "Sorry, I didn't get that. Can you rephrase?"
+                                ]
+                            }
+                        }
+                    ]
+                });
+                break;
+            }
+        }
     }
     catch (error) {
         console.error(`Dialogflow webhook error: ${error}`);
