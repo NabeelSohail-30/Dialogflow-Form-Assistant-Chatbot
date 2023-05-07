@@ -58,7 +58,7 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "City": {
-                console.log(params);
+                const city = params.city;
                 res.send({
                     "fulfillmentMessages": [
                         {
