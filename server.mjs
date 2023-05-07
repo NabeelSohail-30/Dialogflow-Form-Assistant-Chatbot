@@ -63,42 +63,137 @@ app.post('/webhook', async (req, res) => {
             }
             case "City": {
                 const city = params.city;
-                res.send({
-                    "fulfillmentMessages": [
-                        {
-                            "text": {
-                                "text": [
-                                    `We offer the following courses in ${city}`
-                                ]
-                            }
-                        },
-                        {
-                            "payload": {
-                                "richContent": [
-                                    [
-                                        {
-                                            "type": "chips",
-                                            "options": [
-                                                {
-                                                    "text": "Web and Mobile Development",
-                                                },
-                                                {
-                                                    "text": "AI Generated Chatbots",
-                                                },
-                                                {
-                                                    "text": "Graphic Designing",
-                                                },
-                                                {
-                                                    "text": "Flutter",
-                                                },
-                                            ]
-                                        }
+                if (city === "All Pakistan" || city === "Karachi" || city === "Faisalabad" || city === "Islamabad") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `We offer the following courses in ${city}`
                                     ]
-                                ]
+                                }
+                            },
+                            {
+                                "payload": {
+                                    "richContent": [
+                                        [
+                                            {
+                                                "type": "chips",
+                                                "options": [
+                                                    {
+                                                        "text": "Web and Mobile Development",
+                                                    },
+                                                    {
+                                                        "text": "AI Generated Chatbots",
+                                                    },
+                                                    {
+                                                        "text": "Graphic Designing",
+                                                    },
+                                                    {
+                                                        "text": "Flutter",
+                                                    },
+                                                ]
+                                            }
+                                        ]
+                                    ]
+                                }
                             }
-                        }
-                    ]
-                });
+                        ]
+                    });
+                }
+                else {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `Sorry, we don't offer our courses in ${city}. Please select the city from the following.`
+                                    ]
+                                }
+                            },
+                            {
+                                "payload": {
+                                    "richContent": [
+                                        [
+                                            {
+                                                "type": "chips",
+                                                "options": [
+                                                    {
+                                                        "text": "Karachi",
+                                                    },
+                                                    {
+                                                        "text": "Faisalabad",
+                                                    },
+                                                    {
+                                                        "text": "Islamabad",
+                                                    },
+                                                    {
+                                                        "text": "All Pakistan",
+                                                    },
+                                                ]
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        ]
+                    });
+                }
+                break;
+            }
+            case "Course": {
+                const course = params.courses;
+                if (course === "Web and Mobile Development" || course === "AI Generated Chatbots" || course === "Graphic Designing" || course === "Flutter") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `You have selected ${course}, please enter your Full Name`
+                                    ]
+                                }
+                            },
+                        ]
+                    });
+                }
+                else {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+                                    "text": [
+                                        `Sorry, we don't offer ${course} course in your city. Please select the course from the following.`
+                                    ]
+                                }
+                            },
+                            {
+                                "payload": {
+                                    "richContent": [
+                                        [
+                                            {
+                                                "type": "chips",
+                                                "options": [
+                                                    {
+                                                        "text": "Web and Mobile Development",
+                                                    },
+                                                    {
+                                                        "text": "AI Generated Chatbots",
+                                                    },
+                                                    {
+                                                        "text": "Graphic Designing",
+                                                    },
+                                                    {
+                                                        "text": "Flutter",
+                                                    },
+                                                ]
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        ]
+                    });
+                }
                 break;
             }
             case "Default Fallback Intent": {
