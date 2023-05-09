@@ -197,7 +197,7 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "FullName": {
-                const name = params.name;
+                const name = params.name.name;
                 if (name === undefined || name === null || name === "") {
                     res.send({
                         "fulfillmentMessages": [
