@@ -21,52 +21,17 @@ app.post('/webhook', async (req, res) => {
         const intent = req.body.queryResult.intent.displayName;
         const params = req.body.queryResult.parameters;
 
-        let data = {
-            city: {
-                type: String,
-                required: true
-            },
-            course: {
-                type: String,
-                required: true
-            },
-            name: {
-                type: String,
-                required: true
-            },
-            email: {
-                type: String,
-                required: true
-            },
-            phone: {
-                type: String,
-                required: true
-            },
-            cnic: {
-                type: String,
-                required: true
-            },
-            dateOfBirth: {
-                type: Date,
-                required: true
-            },
-            gender: {
-                type: String,
-                required: true
-            },
-            address: {
-                type: String,
-                required: true
-            },
-            education: {
-                type: String,
-                required: true
-            },
-            haveLaptop: {
-                type: Boolean,
-                required: true
-            }
-        };
+        let city;
+        let course;
+        let name;
+        let email;
+        let phone;
+        let cnic;
+        let dob;
+        let gender;
+        let address;
+        let education;
+        let haveLaptop;
 
         switch (intent) {
             case "Default Welcome Intent": {
@@ -109,14 +74,14 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "City": {
-                data.city = params.city;
-                if (data.city === "All Pakistan" || data.city === "Karachi" || data.city === "Faisalabad" || data.city === "Islamabad") {
+                city = params.city;
+                if (city === "All Pakistan" || city === "Karachi" || city === "Faisalabad" || city === "Islamabad") {
                     res.send({
                         "fulfillmentMessages": [
                             {
                                 "text": {
                                     "text": [
-                                        `We offer the following courses in ${data.city}`
+                                        `We offer the following courses in ${city}`
                                     ]
                                 }
                             },
@@ -154,7 +119,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `Sorry, we don't offer our courses in ${data.city}. Please select the city from the following.`
+                                        `Sorry, we don't offer our courses in ${city}. Please select the city from the following.`
                                     ]
                                 }
                             },
@@ -189,14 +154,14 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "Course": {
-                data.course = params.courses;
-                if (data.course === "Web and Mobile Development" || data.course === "AI Generated Chatbots" || data.course === "Graphic Designing" || data.course === "Flutter") {
+                course = params.courses;
+                if (course === "Web and Mobile Development" || course === "AI Generated Chatbots" || course === "Graphic Designing" || course === "Flutter") {
                     res.send({
                         "fulfillmentMessages": [
                             {
                                 "text": {
                                     "text": [
-                                        `You have selected ${data.course}, city: ${data.city}`
+                                        `You have selected ${course}, city: ${city}`
                                     ]
                                 }
                             },
@@ -209,7 +174,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `Sorry, we don't offer ${data.course} course in your city. Please select the course from the following.`
+                                        `Sorry, we don't offer ${course} course in your city. Please select the course from the following.`
                                     ]
                                 }
                             },
