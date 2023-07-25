@@ -26,14 +26,89 @@ app.post('/webhook', async (req, res) => {
             course: undefined
         };
 
-        switch (intent) {
-            case "Default Welcome Intent": {
+        if (intent === "Default Welcome Intent") {
+            res.send({
+                "fulfillmentMessages": [
+                    {
+                        "text": {
+                            "text": [
+                                "Hi there, Welcome to SMIT Form Assistant!, We offer our courses in the following cities, select your city to know more about the courses offered in your city."
+                            ]
+                        }
+                    },
+                    {
+                        "payload": {
+                            "richContent": [
+                                [
+                                    {
+                                        "type": "chips",
+                                        "options": [
+                                            {
+                                                "text": "Karachi",
+                                            },
+                                            {
+                                                "text": "Faisalabad",
+                                            },
+                                            {
+                                                "text": "Islamabad",
+                                            },
+                                            {
+                                                "text": "All Pakistan",
+                                            },
+                                        ]
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            });
+        } else if (intent === "City") {
+            data.city = params.city;
+            if (data.city === "All Pakistan" || data.city === "Karachi" || data.city === "Faisalabad" || data.city === "Islamabad") {
                 res.send({
                     "fulfillmentMessages": [
                         {
                             "text": {
                                 "text": [
-                                    "Hi there, Welcome to SMIT Form Assistant!, We offer our courses in the following cities, select your city to know more about the courses offered in your city."
+                                    `We offer the following courses in ${data.city}`
+                                ]
+                            }
+                        },
+                        {
+                            "payload": {
+                                "richContent": [
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": [
+                                                {
+                                                    "text": "Web and Mobile Development",
+                                                },
+                                                {
+                                                    "text": "AI Generated Chatbots",
+                                                },
+                                                {
+                                                    "text": "Graphic Designing",
+                                                },
+                                                {
+                                                    "text": "Flutter",
+                                                },
+                                            ]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                });
+            } else {
+                res.send({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    `Sorry, we don't offer our courses in ${data.city}. Please select the city from the following.`
                                 ]
                             }
                         },
@@ -64,157 +139,71 @@ app.post('/webhook', async (req, res) => {
                         }
                     ]
                 });
-                break;
             }
-            case "City": {
-                data.city = params.city;
-                if (data.city === "All Pakistan" || data.city === "Karachi" || data.city === "Faisalabad" || data.city === "Islamabad") {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `We offer the following courses in ${data.city}`
-                                    ]
-                                }
-                            },
-                            {
-                                "payload": {
-                                    "richContent": [
-                                        [
-                                            {
-                                                "type": "chips",
-                                                "options": [
-                                                    {
-                                                        "text": "Web and Mobile Development",
-                                                    },
-                                                    {
-                                                        "text": "AI Generated Chatbots",
-                                                    },
-                                                    {
-                                                        "text": "Graphic Designing",
-                                                    },
-                                                    {
-                                                        "text": "Flutter",
-                                                    },
-                                                ]
-                                            }
-                                        ]
-                                    ]
-                                }
-                            }
-                        ]
-                    });
-                }
-                else {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `Sorry, we don't offer our courses in ${data.city}. Please select the city from the following.`
-                                    ]
-                                }
-                            },
-                            {
-                                "payload": {
-                                    "richContent": [
-                                        [
-                                            {
-                                                "type": "chips",
-                                                "options": [
-                                                    {
-                                                        "text": "Karachi",
-                                                    },
-                                                    {
-                                                        "text": "Faisalabad",
-                                                    },
-                                                    {
-                                                        "text": "Islamabad",
-                                                    },
-                                                    {
-                                                        "text": "All Pakistan",
-                                                    },
-                                                ]
-                                            }
-                                        ]
-                                    ]
-                                }
-                            }
-                        ]
-                    });
-                }
-                break;
-            }
-            case "Course": {
-                data.course = params.courses;
-                if (data.course === "Web and Mobile Development" || data.course === "AI Generated Chatbots" || data.course === "Graphic Designing" || data.course === "Flutter") {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `You have selected ${data.course}, city: ${data.city}`
-                                    ]
-                                }
-                            },
-                        ]
-                    });
-                }
-                else {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `Sorry, we don't offer ${data.course} course in your city. Please select the course from the following.`
-                                    ]
-                                }
-                            },
-                            {
-                                "payload": {
-                                    "richContent": [
-                                        [
-                                            {
-                                                "type": "chips",
-                                                "options": [
-                                                    {
-                                                        "text": "Web and Mobile Development",
-                                                    },
-                                                    {
-                                                        "text": "AI Generated Chatbots",
-                                                    },
-                                                    {
-                                                        "text": "Graphic Designing",
-                                                    },
-                                                    {
-                                                        "text": "Flutter",
-                                                    },
-                                                ]
-                                            }
-                                        ]
-                                    ]
-                                }
-                            }
-                        ]
-                    });
-                }
-                break;
-            }
-            case "Default Fallback Intent": {
+        } else if (intent === "Course") {
+            data.course = params.courses;
+            if (data.course === "Web and Mobile Development" || data.course === "AI Generated Chatbots" || data.course === "Graphic Designing" || data.course === "Flutter") {
                 res.send({
                     "fulfillmentMessages": [
                         {
                             "text": {
                                 "text": [
-                                    "Sorry, I didn't get that. Can you rephrase?"
+                                    `You have selected ${data.course}, city: ${data.city}`
                                 ]
                             }
                         },
                     ]
                 });
-                break;
+            } else {
+                res.send({
+                    "fulfillmentMessages": [
+                        {
+                            "text": {
+                                "text": [
+                                    `Sorry, we don't offer ${data.course} course in your city. Please select the course from the following.`
+                                ]
+                            }
+                        },
+                        {
+                            "payload": {
+                                "richContent": [
+                                    [
+                                        {
+                                            "type": "chips",
+                                            "options": [
+                                                {
+                                                    "text": "Web and Mobile Development",
+                                                },
+                                                {
+                                                    "text": "AI Generated Chatbots",
+                                                },
+                                                {
+                                                    "text": "Graphic Designing",
+                                                },
+                                                {
+                                                    "text": "Flutter",
+                                                },
+                                            ]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                });
             }
+        } else if (intent === "Default Fallback Intent") {
+            res.send({
+                "fulfillmentMessages": [
+                    {
+                        "text": {
+                            "text": [
+                                "Sorry, I didn't get that. Can you rephrase?"
+                            ]
+                        }
+                    },
+                ]
+            });
         }
     }
     catch (error) {
