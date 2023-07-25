@@ -149,7 +149,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `You have selected ${course}, city = ${city}`
+                                        `You have selected ${course}`
                                     ]
                                 }
                             },
