@@ -149,7 +149,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `You have selected ${course}, please enter your Full Name`
+                                        `You have selected ${course}, city = ${city}`
                                     ]
                                 }
                             },
@@ -196,35 +196,6 @@ app.post('/webhook', async (req, res) => {
                 }
                 break;
             }
-            case "FullName": {
-                const name = params.name.name;
-                if (name === undefined || name === null || name === "") {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `Please enter your Full Name`
-                                    ]
-                                }
-                            },
-                        ]
-                    });
-                } else {
-                    res.send({
-                        "fulfillmentMessages": [
-                            {
-                                "text": {
-                                    "text": [
-                                        `Your name is ${name}, please enter your Father++`
-                                    ]
-                                }
-                            },
-                        ]
-                    });
-                }
-                break;
-            }
             case "Default Fallback Intent": {
                 res.send({
                     "fulfillmentMessages": [
@@ -265,10 +236,6 @@ const formData = new mongoose.Schema({
         type: String,
         required: true
     },
-    fatherName: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true,
@@ -280,10 +247,6 @@ const formData = new mongoose.Schema({
     cnic: {
         type: String,
         required: true,
-    },
-    fatherCnic: {
-        type: String,
-        required: false,
     },
     dateOfBirth: {
         type: Date,
@@ -303,10 +266,6 @@ const formData = new mongoose.Schema({
     },
     haveLaptop: {
         type: Boolean,
-        required: true
-    },
-    pictureUrl: {
-        type: String,
         required: true
     }
 });
