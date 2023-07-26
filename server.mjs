@@ -150,7 +150,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `You have selected ${course}`
+                                        `You have selected ${course}, Please Enter your Full Name`
                                     ]
                                 }
                             },
@@ -197,6 +197,24 @@ app.post('/webhook', async (req, res) => {
                     });
                 }
                 break;
+            }
+            case "FullName": {
+                const name = params.name;
+                if (name !== "") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+
+                                    "text": [
+                                        `Okay ${name}, Please Enter your Email`
+                                    ]
+                                }
+                            },
+                        ]
+                    });
+                    Form.name = name;
+                }
             }
             case "Default Fallback Intent": {
                 res.send({
@@ -280,24 +298,24 @@ const formData = new mongoose.Schema({
 const Form = mongoose.model('Form', formData);
 
 /*---------------------------MongoDB---------------------------*/
-// let dbURI = 'mongodb+srv://NabeelSohail:Nabeel30@cluster0.lidnkc6.mongodb.net/?retryWrites=true&w=majority';
-// mongoose.connect(dbURI);
-// mongoose.connection.on('connected', () => {
-//     console.log('Mongoose is connected');
-// }
-// );
-// mongoose.connection.on('error', (err) => {
-//     console.log('Mongoose connection error: ', err);
-// }
-// );
-// mongoose.connection.on('disconnected', () => {
-//     console.log('Mongoose is disconnected');
-// }
-// );
-// process.on('SIGINT', () => {
-//     mongoose.connection.close(() => {
-//         console.log('Mongoose is disconnected due to application termination');
-//         process.exit(0);
-//     });
-// }
-// );
+let dbURI = 'mongodb+srv://NabeelSohail:Nabeel30@cluster0.lidnkc6.mongodb.net/?retryWrites=true&w=majority';
+mongoose.connect(dbURI);
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose is connected');
+}
+);
+mongoose.connection.on('error', (err) => {
+    console.log('Mongoose connection error: ', err);
+}
+);
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose is disconnected');
+}
+);
+process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+        console.log('Mongoose is disconnected due to application termination');
+        process.exit(0);
+    });
+}
+);
