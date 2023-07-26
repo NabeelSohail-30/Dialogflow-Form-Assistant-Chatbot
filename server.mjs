@@ -217,6 +217,25 @@ app.post('/webhook', async (req, res) => {
                 }
                 break;
             }
+            case "Email": {
+                const email = params.email;
+                if (email !== "") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+
+                                    "text": [
+                                        `Okay ${email}, Please Enter your Password`
+                                    ]
+                                }
+                            },
+                        ]
+                    });
+                    Form.email = email;
+                }
+                break;
+            }
             case "Default Fallback Intent": {
                 res.send({
                     "fulfillmentMessages": [
