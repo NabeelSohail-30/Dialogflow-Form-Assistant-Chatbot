@@ -213,7 +213,7 @@ app.post('/webhook', async (req, res) => {
                             },
                         ]
                     });
-                    Form.name = name;
+                    Form.fullName = name;
                 }
             }
             case "Default Fallback Intent": {
@@ -234,7 +234,7 @@ app.post('/webhook', async (req, res) => {
 
         console.log(Form.city);
         console.log(Form.course);
-        console.log(Form.name);
+        console.log(Form.fullName);
 
     }
     catch (error) {
@@ -257,7 +257,7 @@ const formData = new mongoose.Schema({
         type: String,
         required: true
     },
-    name: {
+    fullName: {
         type: String,
         required: true
     },
