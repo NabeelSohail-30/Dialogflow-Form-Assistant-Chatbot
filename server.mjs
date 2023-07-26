@@ -21,11 +21,6 @@ app.post('/webhook', async (req, res) => {
         const intent = req.body.queryResult.intent.displayName;
         const params = req.body.queryResult.parameters;
 
-        let data = {
-            city: undefined,
-            course: undefined
-        };
-
         switch (intent) {
             case "Default Welcome Intent": {
                 res.send({
@@ -67,14 +62,14 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "City": {
-                data.city = params.city;
-                if (data.city === "All Pakistan" || data.city === "Karachi" || data.city === "Faisalabad" || data.city === "Islamabad") {
+                const city = params.city;
+                if (city === "All Pakistan" || city === "Karachi" || city === "Faisalabad" || city === "Islamabad") {
                     res.send({
                         "fulfillmentMessages": [
                             {
                                 "text": {
                                     "text": [
-                                        `We offer the following courses in ${data.city}`
+                                        `We offer the following courses in ${city}`
                                     ]
                                 }
                             },
@@ -105,6 +100,7 @@ app.post('/webhook', async (req, res) => {
                             }
                         ]
                     });
+                    Form.city = city;
                 }
                 else {
                     res.send({
@@ -112,7 +108,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `Sorry, we don't offer our courses in ${data.city}. Please select the city from the following.`
+                                        `Sorry, we don't offer our courses in ${city}. Please select the city from the following.`
                                     ]
                                 }
                             },
@@ -147,19 +143,20 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
             case "Course": {
-                data.course = params.courses;
-                if (data.course === "Web and Mobile Development" || data.course === "AI Generated Chatbots" || data.course === "Graphic Designing" || data.course === "Flutter") {
+                const course = params.courses;
+                if (course === "Web and Mobile Development" || course === "AI Generated Chatbots" || course === "Graphic Designing" || course === "Flutter") {
                     res.send({
                         "fulfillmentMessages": [
                             {
                                 "text": {
                                     "text": [
-                                        `You have selected ${data.course}, city: ${data.city}`
+                                        `You have selected ${course}`
                                     ]
                                 }
                             },
                         ]
                     });
+                    Form.course = course;
                 }
                 else {
                     res.send({
@@ -167,7 +164,7 @@ app.post('/webhook', async (req, res) => {
                             {
                                 "text": {
                                     "text": [
-                                        `Sorry, we don't offer ${data.course} course in your city. Please select the course from the following.`
+                                        `Sorry, we don't offer ${course} course in your city. Please select the course from the following.`
                                     ]
                                 }
                             },
@@ -216,6 +213,9 @@ app.post('/webhook', async (req, res) => {
                 break;
             }
         }
+
+        console.log(Form)
+
     }
     catch (error) {
         console.error(`Dialogflow webhook error: ${error}`);
