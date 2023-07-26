@@ -214,7 +214,9 @@ app.post('/webhook', async (req, res) => {
             }
         }
 
-        console.log(Form)
+        console.log(Form.city);
+        console.log(Form.course);
+        console.log(Form.name);
 
     }
     catch (error) {
