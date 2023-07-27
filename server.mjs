@@ -226,13 +226,32 @@ app.post('/webhook', async (req, res) => {
                                 "text": {
 
                                     "text": [
-                                        `Okay ${email}, Please Enter your Password`
+                                        `Okay, Now Enter your phone number`
                                     ]
                                 }
                             },
                         ]
                     });
                     Form.email = email;
+                }
+                break;
+            }
+            case "Phone": {
+                const phone = params.phone;
+                if (phone !== "") {
+                    res.send({
+                        "fulfillmentMessages": [
+                            {
+                                "text": {
+
+                                    "text": [
+                                        `Okay, Now Enter your password`
+                                    ]
+                                }
+                            }
+                        ]
+                    });
+                    Form.phone = phone;
                 }
                 break;
             }
